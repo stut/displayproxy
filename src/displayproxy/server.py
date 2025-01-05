@@ -15,7 +15,9 @@ class ProxyServer:
     or using pygame.
     """
 
-    def __init__(self, display_type: str, host: str = 'localhost', port: int = 8000, buttons: str = '', options: str = ''):
+    def __init__(self, display_type: str,
+                 host: str = 'localhost', port: int = 8000,
+                 buttons: str = '', options: str = ''):
         """
         Create an ProxyServer.
 

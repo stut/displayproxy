@@ -1,6 +1,5 @@
 from copy import deepcopy
-import os
-from threading import Event, Thread
+from threading import Event
 from time import sleep
 
 from PIL import Image
@@ -20,8 +19,10 @@ class PygameDisplay(BaseDisplay):
         # If width and height are 0 the display will match the screen resolution.
         "width": 0,
         "height": 0,
-        # Sleep for this number of seconds after each loop.
-        "sleep": 0.1,
+        # Sleep for this number of seconds after each loop. This is the max timw
+        # it may take to update the display when a new image is received. It also
+        # affects how frequently inputs are checked.
+        "sleep": 1,
         # Forcefully refresh the display every n seconds. This should not be too
         # frequent, and is here to prevent the display from getting stuck.
         "refresh": 10,
