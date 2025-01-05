@@ -8,6 +8,9 @@ from PIL import Image
 
 class BaseDisplay:
     """Base class for displays."""
+    # Do not set any default options here as this variable will be wiped out if
+    # overridden in subclasses. Base level defaults should be set in the
+    # __init__ method below.
     _default_options = {}
 
     def __init__(self, buttons: str, options: str):
@@ -25,6 +28,9 @@ class BaseDisplay:
         self._button_lock = Lock()
         self._options = {**self._default_options, **self._parse_options(options)}
 
+        # Base level default options.
+        self._max_upload_size = int(self._options.get('max_upload_size', 1024 * 1024 * 5))  # 5MB
+
     @property
     def width(self) -> int:
         """Return the width of the display."""
@@ -34,6 +40,11 @@ class BaseDisplay:
     def height(self) -> int:
         """Return the height of the display."""
         raise Exception("Height property must be implemented in Display classes")
+
+    @property
+    def max_upload_size(self) -> int:
+        """Return the maximum upload size."""
+        return self._max_upload_size
 
     def get_button_status(self) -> dict:
         """Return the current state of the buttons."""
