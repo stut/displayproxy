@@ -116,7 +116,6 @@ class BaseDisplay:
 
         :param pin: The pin of the button that was pressed.
         """
-        print(f"Button pressed: {pin}")
         with self._button_lock:
             for label, spec in self._button_defs.items():
                 if spec == pin:
