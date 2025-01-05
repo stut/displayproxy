@@ -18,7 +18,7 @@ window of equivalent dimensions.
   [Pimoroni's Inky documentation](https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat)
   for more information)
 
-## Usage
+## Usage
 
 All configuration is done using command line options. The default values are:
 - `host` = `"localhost"`
@@ -27,7 +27,7 @@ All configuration is done using command line options. The default values are:
 - `options` = `""`
 
 ```bash
-$ python3 -m displayproxy.server [--host HOST] [--port PORT] [--buttons BUTTONS]
+$ python3 -m displayproxy.server [<display-type>] [--host <HOST>] [--port <PORT>] [--buttons <BUTTONS>] [--options <OPTIONS>]
 ```
 
 Nothing is drawn to the display until an image is received, so don't expect
@@ -117,7 +117,7 @@ display was last pressed.
 This indicates that button `b` was last pressed at the unix timestamp
 `1736005506`, while the other buttons have not been pressed.
 
-### `POST /update`
+### `POST /update`
 
 This endpoint accepts raw image data in the request body and will display it on
 the Inky display.
