@@ -18,6 +18,20 @@ window of equivalent dimensions.
   [Pimoroni's Inky documentation](https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat)
   for more information)
 
+## Installation
+
+Install with pip or pipx. Note that it's not yet in pypi. Both methods will
+install the `displayproxy` command, or it can be run directly with
+`python3 -m displayproxy.server`.
+
+```bash
+$ pip install git+ssh://github.com/stut/displayproxy.git
+```
+
+```bash
+$ pipx install git+ssh://github.com/stut/displayproxy.git
+```
+
 ## Usage
 
 All configuration is done using command line options. The default values are:
@@ -30,7 +44,29 @@ All configuration is done using command line options. The default values are:
 $ python3 -m displayproxy.server [<display-type>] [--host <HOST>] [--port <PORT>] [--buttons <BUTTONS>] [--options <OPTIONS>]
 ```
 
-When using an Inky display, nothing is drawn to the display until an image is
-received, so don't expect anything to happen on startup.
+### Inky displays
+
+The display will not be updated until an image is received, so don't expect
+anything to happen on startup.
+
+The process can be run as a daemon as it does not need access to a desktop
+environment. It can be run on a headless Raspberry Pi.
+
+### Pygame
+
+Pygame requires a desktop environment to run. The easiest way to achieve this
+at startup on a Raspberry Pi is to use an autostart script.
 
 See [the docs](docs/index.md) for more information.
+
+## TODO
+
+- [ ] Add documentation on setting it up as a systemd service with an Inky
+      display, and using an autostart script for Pygame. 
+- [ ] Implement buttons for the pygame display mode.
+- [ ] Add a webhook option for button presses.
+- [ ] Switch to using a configuration file for the complex options. Retain
+      command line options for `display-type`, `host`, `port`.
+- [ ] Add `display-type` aliases for specific devices. For example, specifying
+      `inky-impression-5.7` would set `width=600`, `height=448`, and the buttons
+      config to `A=5;B=6;C=16;D=24`.
