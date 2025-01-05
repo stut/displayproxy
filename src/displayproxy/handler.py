@@ -17,6 +17,8 @@ def MakeProxyHandler(display):
         def do_GET(self):
             if self.path == '/info':
                 self._do_get_info()
+            elif self.path == '/buttons':
+                self._do_get_buttons()
             else:
                 self._do_404()
 
@@ -45,6 +47,13 @@ def MakeProxyHandler(display):
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             self.wfile.write(bytes(json.dumps(info), 'utf8'))
+
+        def _do_get_buttons(self):
+            """Return the current state of the buttons."""
+            self.send_response(HTTPStatus.OK)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(bytes(json.dumps(display.get_button_status()), 'utf8'))
 
         def _do_post_update(self):
             """Update the display with the posted image."""

@@ -3,10 +3,10 @@ from displayproxy.display_base import BaseDisplay
 
 try:
     from copy import deepcopy
-    from datetime import datetime
     from sys import exit
 
     from inky.auto import auto
+    import RPi.GPIO as GPIO
     from PIL import Image
 
     class InkyDisplay(BaseDisplay):
@@ -19,9 +19,10 @@ try:
 
         def __init__(self, buttons: str, options: str):
             """
-            :param diff_percent_threshold: The percentage of pixels that must
-                differ between the new image and the last image displayed for an
-                update to occur.
+            Initialise the display.
+
+            :param buttons: A dictionary of button definitions.
+            :param options: A dictionary of options specific to the display type.
             """
             super().__init__(buttons, options)
 
@@ -35,6 +36,7 @@ try:
                 exit('You need to update the Inky library to >= v1.1.0')
 
             self._current_image = None
+            self._setup_buttons()
 
         @property
         def width(self) -> int:
@@ -46,13 +48,35 @@ try:
             """Return the height of the display."""
             return self._display.height
 
-        def _button_callback(self, button: str) -> None:
+        def _setup_buttons(self) -> None:
             """
-            Update the status of a button to say it was pressed now.
+            Setup the buttons.
+            """
+            GPIO.setmode(GPIO.BCM)
+            for label in self._button_defs.keys():
+                try:
+                    # The pin will default to pull-up and falling edge unless
+                    # the pin ends in 'd' (for down)
+                    pin_def = self._button_defs[label].lower()
+                    pull_up_down = GPIO.PUD_UP
+                    if pin_def.endswith('d'):
+                        pin_def = int(pin_def[:-1])
+                        pull_up_down = GPIO.PUD_DOWN
+                    elif pin_def.endswith('u'):
+                        pin_def = int(pin_def[:-1])
+                        pull_up_down = GPIO.PUD_UP
+                    else:
+                        pin_def = int(pin_def)
 
-            :param button: The label of the button that was pressed.
-            """
-            self._button_status[button] = datetime.now().timestamp()
+                    GPIO.setup([pin_def], GPIO.IN, pull_up_down=pull_up_down)
+                    GPIO.add_event_detect(pin_def, GPIO.FALLING if pull_up_down == GPIO.PUD_UP else GPIO.RISING,
+                                          self._button_pressed_callback, bouncetime=500)
+
+                    # Update the button definition to just be the pin number so
+                    # the callback can look up the label.
+                    self._button_defs[label] = pin_def
+                except Exception as e:
+                    exit(f"Error setting up button '{label}': {e}")
 
         def _compare_pixels(self, currentImage: Image, newImage: Image) -> float:
             """
@@ -100,4 +124,4 @@ except ImportError:
         """Dummy class for when the Inky library is not installed."""
 
         def __init__(self, diff_percent_threshold: float = 1.0, buttons: dict = {}):
-            exit('The Inky library is not installed. Please install it to use the display.')
+            exit('The Inky library is not installed; cannot use an Inky display without it.')

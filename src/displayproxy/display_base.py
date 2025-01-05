@@ -1,4 +1,6 @@
-from threading import Event
+from copy import deepcopy
+from datetime import datetime
+from threading import Event, Lock
 from time import sleep
 
 from PIL import Image
@@ -19,7 +21,8 @@ class BaseDisplay:
         """
         self._shutdown_event = Event()
         self._button_defs = self._parse_buttons(buttons)
-        self._button_states = {label: 0 for label in self._button_defs}
+        self._button_status = {label: 0 for label in self._button_defs} if self._button_defs else {}
+        self._button_lock = Lock()
         self._options = {**self._default_options, **self._parse_options(options)}
 
     @property
@@ -32,9 +35,10 @@ class BaseDisplay:
         """Return the height of the display."""
         raise Exception("Height property must be implemented in Display classes")
 
-    def get_button_states(self) -> dict:
+    def get_button_status(self) -> dict:
         """Return the current state of the buttons."""
-        return self._button_states
+        with self._button_lock:
+            return deepcopy(self._button_status)
 
     def run(self) -> None:
         """Handle input events."""
@@ -78,7 +82,7 @@ class BaseDisplay:
                 # in the spec.
                 bits = button.split('=')
                 spec = bits.pop()
-                buttons_defs[bits.join('=').strip()] = spec.strip()
+                buttons_defs['='.join(bits).strip()] = spec.strip()
             return buttons_defs
         except Exception as e:
             exit(f'Error parsing button configuration: {e}')
@@ -105,6 +109,19 @@ class BaseDisplay:
             return options_dict
         except Exception as e:
             exit(f'Error parsing button configuration: {e}')
+
+    def _button_pressed_callback(self, pin: int) -> None:
+        """
+        Update the status of a button to say it was pressed now.
+
+        :param pin: The pin of the button that was pressed.
+        """
+        print(f"Button pressed: {pin}")
+        with self._button_lock:
+            for label, spec in self._button_defs.items():
+                if spec == pin:
+                    self._button_status[label] = datetime.now().timestamp()
+                    break
 
     def _is_truthy_str(self, value: str) -> bool:
         """Return True if the value is a truthy string."""

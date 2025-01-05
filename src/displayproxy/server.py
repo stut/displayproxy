@@ -3,6 +3,7 @@
 import atexit
 from http.server import HTTPServer
 import os
+import sys
 from threading import Thread
 
 from displayproxy.handler import MakeProxyHandler
@@ -49,6 +50,7 @@ class ProxyServer:
         httpd = HTTPServer(server_address, MakeProxyHandler(self._display))
         t = Thread(target=httpd.serve_forever)
         t.start()
+        sys.stderr.write(f"Server listening on {self._host}:{self._port}...\n")
         self._display.run()
         httpd.shutdown()
         t.join()
