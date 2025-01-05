@@ -29,11 +29,13 @@ if sys.argv[-1] == "publish":
 
 requires = [
     "pillow>=11.1.0",
-    "inky>=1.5.0",
     "pygame>=2.6.1",
 ]
 test_requirements = [
 ]
+
+if sys.platform.startswith("linux"):
+    requires.append("inky>=1.5.0")
 
 about = {}
 here = os.path.abspath(os.path.dirname(__file__))
