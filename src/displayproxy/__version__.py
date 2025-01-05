@@ -1,0 +1,8 @@
+__title__ = "displayproxy"
+__description__ = "A simple HTTP proxy server for the Inky pHAT"
+__url__ = "https://go.stut.net/displayproxy"
+__version__ = "0.0.1"
+__author__ = "Stuart Dallas"
+__author_email__ = "stuart@stut.net"
+__license__ = "Apache-2.0"
+__copyright__ = "Copyright Stuart Dallas"
