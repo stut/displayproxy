@@ -1,4 +1,17 @@
-__pycache__/
-.idea/
-venv/
+.cache/
+build/
+*.egg-info/
+*.pyc
+*.swp
+*.egg
+.venv/
+.eggs/
+.vscode/
+
+# in case you work with IntelliJ/PyCharm
+.idea
+*.iml
+.python-version
+
+dist
 

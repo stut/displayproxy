@@ -1,4 +1,4 @@
-from display_base import BaseDisplay
+from displayproxy.display_base import BaseDisplay
 
 
 try:

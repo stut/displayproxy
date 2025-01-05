@@ -2,9 +2,10 @@
 
 import atexit
 from http.server import HTTPServer
+import os
 from threading import Thread
 
-from handler import MakeProxyHandler
+from displayproxy.handler import MakeProxyHandler
 
 __all__ = ['ProxyServer']
 
@@ -32,10 +33,10 @@ class ProxyServer:
         self._port = port
 
         if display_type == 'inky':
-            from display_inky import InkyDisplay
+            from .display_inky import InkyDisplay
             self._display = InkyDisplay(buttons, options)
         elif display_type == 'pygame':
-            from display_pygame import PygameDisplay
+            from .display_pygame import PygameDisplay
             self._display = PygameDisplay(buttons, options)
         else:
             exit(f"Unsupported display type: {display_type}; supported: inky, pygame")
@@ -53,7 +54,7 @@ class ProxyServer:
         t.join()
 
 
-if __name__ == '__main__':
+def main():
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -71,12 +72,18 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     try:
-        ProxyServer(
+        server = ProxyServer(
             args.display_type,
             host=args.host,
             port=args.port,
             buttons=args.buttons,
             options=args.options,
-        ).start()
+        )
+        server.start()
     except KeyboardInterrupt:
         print("\nKeyboard interrupt received, exiting.")
+        os._exit(1)
+
+
+if __name__ == '__main__':
+    main()

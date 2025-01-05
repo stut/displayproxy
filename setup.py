@@ -69,4 +69,7 @@ setup(
         "Documentation": "https://go.stut.net/displayproxy",
         "Source": "https://github.com/stut/displayproxy",
     },
+    entry_points={
+        'console_scripts': ["displayproxy=displayproxy.server:main"],
+    },
 )

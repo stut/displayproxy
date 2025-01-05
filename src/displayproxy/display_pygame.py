@@ -1,11 +1,12 @@
+from displayproxy.display_base import BaseDisplay
 from copy import deepcopy
 from threading import Event
 from time import sleep
 
 from PIL import Image
-import pygame
-
-from display_base import BaseDisplay
+import contextlib
+with contextlib.redirect_stdout(None):
+    import pygame
 
 
 class PygameDisplay(BaseDisplay):
@@ -59,7 +60,12 @@ class PygameDisplay(BaseDisplay):
         if self._hide_cursor:
             pygame.mouse.set_visible(0)
 
-        self._display.fill((0, 0, 0))
+        self._display.fill((32, 32, 32))
+        self._display.blit(pygame.font.SysFont("Arial", 24).render(
+            "Waiting for data...", 1, (192, 192, 192)), (30, 30))
+        self._display.blit(pygame.font.SysFont("Verdana", 16).render(
+            "Press ESC to quit", 1, (192, 192, 192)), (30, 90))
+        pygame.display.flip()
 
         self._updated = Event()
 
@@ -85,7 +91,7 @@ class PygameDisplay(BaseDisplay):
                     refresh_counter -= 1
 
             except Exception as e:
-                print(f"Error in pygame loop: {e}")
+                print(f"Exception in pygame loop: {e}")
 
             sleep(self._sleep)
 
