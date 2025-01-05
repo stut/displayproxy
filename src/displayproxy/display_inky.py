@@ -14,6 +14,7 @@ try:
         _default_options = {
             "saturation": 0.5,
             "border_colour": "black",
+            "diff_percent_threshold": 1.0,
         }
 
         def __init__(self, buttons: str, options: str):
@@ -23,6 +24,10 @@ try:
                 update to occur.
             """
             super().__init__(buttons, options)
+
+            self._saturation = float(self._options['saturation'])
+            self._border_colour = self._options['border_colour']
+            self._diff_percent_threshold = float(self._options['diff_percent_threshold'])
 
             try:
                 self._display = auto(ask_user=False, verbose=False)
@@ -86,8 +91,8 @@ try:
 
             if diff_percent == -1 or diff_percent > self._diff_percent_threshold:
                 self._current_image = deepcopy(rgb_img)
-                self._display.set_image(img.resize(self._display.resolution), saturation=self._options['saturation'])
-                self._display.set_border(self._options['border_colour'])
+                self._display.set_image(img.resize(self._display.resolution), saturation=self._saturation)
+                self._display.set_border(self._border_colour)
                 self._display.show()
 
 except ImportError:
