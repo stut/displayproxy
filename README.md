@@ -77,7 +77,7 @@ Use the `GET /buttons` endpoint to see when the buttons were last pressed.
 
 TODO: Document the options option.
 
-## API
+## API
 
 ### `GET /info`
 
