@@ -14,12 +14,12 @@ class PygameDisplay(BaseDisplay):
     _default_options = {
         # Fullscreen mode; if width and height are specified they will be
         # stretched/compressed to fill the screen.
-        "fullscreen": 'true',
+        "fullscreen": 'false',
         # Hide the cursor; useful for touchscreens or where you have no buttons.
         "hide_cursor": 'false',
         # If width and height are 0 the display will match the screen resolution.
-        "width": 0,
-        "height": 0,
+        "width": 600,
+        "height": 448,
         # Sleep for this number of seconds after each loop. This is the max timw
         # it may take to update the display when a new image is received. It also
         # affects how frequently inputs are checked.
