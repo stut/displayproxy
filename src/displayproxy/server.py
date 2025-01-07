@@ -5,8 +5,10 @@ from http.server import HTTPServer
 import os
 import sys
 from threading import Thread
+from typing import Optional
 
 from displayproxy.handler import MakeProxyHandler
+from displayproxy.config import Config
 
 __all__ = ['ProxyServer']
 
@@ -19,6 +21,7 @@ class ProxyServer:
 
     def __init__(self, display_type: str,
                  host: str = 'localhost', port: int = 8000,
+                 display_type_defaults: Optional[dict] = None,
                  buttons: str = '', options: str = ''):
         """
         Create an ProxyServer.
@@ -33,12 +36,14 @@ class ProxyServer:
         self._host = host
         self._port = port
 
-        if display_type == 'inky':
+        config = Config(display_type, buttons, options)
+
+        if config.display_type == 'inky':
             from .display_inky import InkyDisplay
-            self._display = InkyDisplay(buttons, options)
-        elif display_type == 'pygame':
+            self._display = InkyDisplay(config)
+        elif config.display_type == 'pygame':
             from .display_pygame import PygameDisplay
-            self._display = PygameDisplay(buttons, options)
+            self._display = PygameDisplay(config)
         else:
             exit(f"Unsupported display type: {display_type}; supported: inky, pygame")
 

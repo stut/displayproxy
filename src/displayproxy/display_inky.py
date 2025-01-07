@@ -1,4 +1,5 @@
 from displayproxy.display_base import BaseDisplay
+from displayproxy.config import Config
 
 
 try:
@@ -17,18 +18,18 @@ try:
             "diff_percent_threshold": 1.0,
         }
 
-        def __init__(self, buttons: str, options: str):
+        def __init__(self, config: Config):
             """
             Initialise the display.
 
             :param buttons: A dictionary of button definitions.
             :param options: A dictionary of options specific to the display type.
             """
-            super().__init__(buttons, options)
+            super().__init__(config)
 
-            self._saturation = float(self._options['saturation'])
-            self._border_colour = self._options['border_colour']
-            self._diff_percent_threshold = float(self._options['diff_percent_threshold'])
+            self._saturation = self._config.option_float('saturation', self._default_options['saturation'])
+            self._border_colour = self._config.option_str('border_colour', self._default_options['border_colour'])
+            self._diff_percent_threshold = self._config.option_float('diff_percent_threshold', self._default_options['diff_percent_threshold'])
 
             try:
                 self._display = auto(ask_user=False, verbose=False)
@@ -70,7 +71,7 @@ try:
 
                     GPIO.setup([pin_def], GPIO.IN, pull_up_down=pull_up_down)
                     GPIO.add_event_detect(pin_def, GPIO.FALLING if pull_up_down == GPIO.PUD_UP else GPIO.RISING,
-                                          self._button_pressed_callback, bouncetime=500)
+                                          self._button_pressed, bouncetime=500)
 
                     # Update the button definition to just be the pin number so
                     # the callback can look up the label.

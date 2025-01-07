@@ -43,18 +43,21 @@ This indicates that button `b` was last pressed at the unix timestamp
 This endpoint accepts raw image data in the request body and will display it on
 the Inky display.
 
-- The image data should be in a format that the `PIL.Image` class can read.
-- The image will be stretched to fit the Inky display. Use the `/info` endpoint
-  to get the display's resolution.
+- The image data should be in a format that the pillow `Image.open` function
+  can read, or raw bytes in the pillow RGBA (3x8-bit pixels, true color) or
+  RGBA (4x8-bit pixels, true color with transparency mask) modes of the same
+  resolution as the display.
+- The image will be resized to fit the display's resolution. Dynamic clients
+  can use the `/info` endpoint to get the display's resolution.
 - The request will not return until the image has been displayed.
 - The response will be a `204` status code if the image was displayed
   successfully.
-- If the supplied image couuld not be displayed, a `400` status code will be
+- If the supplied image could not be displayed, a `400` status code will be
   returned.
 - If the image is valid but something else went wrong, a `500` status code will
   be returned.
 
 ## `POST /shutdown`
 
-This endpoint will shut down the server. It takes no body and returns a
-`202 Accepted` status code since the actual shutdown may not happen immediately.
+This endpoint will shut the server down. It takes no body and returns a
+`202 Accepted` status code. The actual shutdown may not happen immediately.

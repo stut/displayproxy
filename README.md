@@ -57,16 +57,28 @@ environment. It can be run on a headless Raspberry Pi.
 Pygame requires a desktop environment to run. The easiest way to achieve this
 at startup on a Raspberry Pi is to use an autostart script.
 
+## Display type aliases
+
+The `display-type` option can be set to one of the following aliases to set
+default buttons and options. These can be overridden with the `buttons` and
+`options` CLI arguments.
+
+- `inky-impression-5.7`: Inky Impression 5.7" display.
+- `pygame-inky-impression-5.7`: Pygame window with the same dimensions and
+  buttons as the Inky Impression 5.7" display.
+
+PRs to add more aliases are welcome.
+
 See [the docs](docs/index.md) for more information.
 
 ## TODO
 
 - [ ] Add documentation on setting it up as a systemd service with an Inky
       display, and using an autostart script for Pygame. 
-- [ ] Implement buttons for the pygame display mode.
 - [ ] Add a webhook option for button presses.
 - [ ] Switch to using a configuration file for the complex options. Retain
       command line options for `display-type`, `host`, `port`.
-- [ ] Add `display-type` aliases for specific devices. For example, specifying
+- [X] Implement buttons for the pygame display mode.
+- [X] Add `display-type` aliases for specific devices. For example, specifying
       `inky-impression-5.7` would set `width=600`, `height=448`, and the buttons
-      config to `A=5;B=6;C=16;D=24`.
+      config to `A=5u;B=6u;C=16u;D=24u`.

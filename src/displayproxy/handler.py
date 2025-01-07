@@ -73,7 +73,20 @@ def MakeProxyHandler(display):
 
             post_body = self.rfile.read(content_len)
             bytes_io = io.BytesIO(post_body)
-            img = Image.open(bytes_io)
+            img = None
+            try:
+                img = Image.open(bytes_io)
+            except Exception:
+                for fmt in ['RGBA', 'RGB']:
+                    try:
+                        img = Image.frombytes(fmt, (display.width, display.height), post_body)
+                        break
+                    except Exception:
+                        continue
+                if img is None:
+                    self._send_headers(HTTPStatus.BAD_REQUEST)
+                    self.wfile.write(bytes('Invalid image data', 'utf8'))
+                    return
             display.update(img)
 
             self._send_headers(HTTPStatus.NO_CONTENT)
