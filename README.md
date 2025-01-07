@@ -57,6 +57,8 @@ environment. It can be run on a headless Raspberry Pi.
 Pygame requires a desktop environment to run. The easiest way to achieve this
 at startup on a Raspberry Pi is to use an autostart script.
 
+See [the docs](docs/index.md) for more information.
+
 ## Display type aliases
 
 The `display-type` option can be set to one of the following aliases to set
@@ -68,8 +70,6 @@ default buttons and options. These can be overridden with the `buttons` and
   buttons as the Inky Impression 5.7" display.
 
 PRs to add more aliases are welcome.
-
-See [the docs](docs/index.md) for more information.
 
 ## TODO
 
