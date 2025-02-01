@@ -25,11 +25,11 @@ install the `displayproxy` command, or it can be run directly with
 `python3 -m displayproxy.server`.
 
 ```bash
-$ pip install git+ssh://github.com/stut/displayproxy.git
+$ pip install git+https://github.com/stut/displayproxy.git
 ```
 
 ```bash
-$ pipx install git+ssh://github.com/stut/displayproxy.git
+$ pipx install git+https://github.com/stut/displayproxy.git
 ```
 
 ## Usage
