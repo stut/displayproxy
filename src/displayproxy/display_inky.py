@@ -71,7 +71,7 @@ try:
 
                     GPIO.setup([pin_def], GPIO.IN, pull_up_down=pull_up_down)
                     GPIO.add_event_detect(pin_def, GPIO.FALLING if pull_up_down == GPIO.PUD_UP else GPIO.RISING,
-                                          self._button_pressed, bouncetime=500)
+                                          self._handle_button_pressed, bouncetime=500)
 
                     # Update the button definition to just be the pin number so
                     # the callback can look up the label.
