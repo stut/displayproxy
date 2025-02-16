@@ -85,7 +85,6 @@ def main():
             port=args.port,
             buttons=args.buttons,
             options=args.options,
-            enable_access_log=args.with_access_log,
         )
         server.start()
     except KeyboardInterrupt:
