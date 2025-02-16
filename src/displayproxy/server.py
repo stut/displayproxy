@@ -22,7 +22,8 @@ class ProxyServer:
     def __init__(self, display_type: str,
                  host: str = 'localhost', port: int = 8000,
                  display_type_defaults: Optional[dict] = None,
-                 buttons: str = '', options: str = ''):
+                 buttons: str = '', options: str = '',
+                 enable_access_log: bool = False):
         """
         Create an ProxyServer.
 
@@ -35,6 +36,7 @@ class ProxyServer:
         """
         self._host = host
         self._port = port
+        self._enable_access_log = enable_access_log
 
         config = Config(display_type, buttons, options)
 
@@ -52,7 +54,8 @@ class ProxyServer:
     def start(self):
         """Start the server and run the display."""
         server_address = (self._host, self._port)
-        httpd = HTTPServer(server_address, MakeProxyHandler(self._display))
+        httpd = HTTPServer(server_address,
+                           MakeProxyHandler(self._display, self._enable_access_log))
         t = Thread(target=httpd.serve_forever)
         t.start()
         sys.stderr.write(f"Server listening on {self._host}:{self._port}...\n")
@@ -73,6 +76,8 @@ def main():
                         help='button configuration (see docs; default: "")')
     parser.add_argument('--options', default='', type=str, metavar='OPTIONS',
                         help='type-specific display options (see docs; default: "")')
+    parser.add_argument('--with-access-log', action='store_true',
+                        help='enable access log')
     parser.add_argument('display_type', type=str, metavar='DISPLAY_TYPE',
                         nargs='?', default='pygame',
                         help='type of display to use (supported: inky, pygame; default: pygame)')
@@ -85,6 +90,7 @@ def main():
             port=args.port,
             buttons=args.buttons,
             options=args.options,
+            enable_access_log=args.with_access_log,
         )
         server.start()
     except KeyboardInterrupt:
