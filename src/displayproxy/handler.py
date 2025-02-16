@@ -7,7 +7,7 @@ from PIL import Image
 from displayproxy.__version__ import __version__
 
 
-def MakeProxyHandler(display, enable_access_log=False):
+def MakeProxyHandler(display):
     class ProxyHandler(BaseHTTPRequestHandler):
         """
         HTTP request handler for the ProxyServer.
@@ -15,12 +15,10 @@ def MakeProxyHandler(display, enable_access_log=False):
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
-            self._enable_access_log = enable_access_log
 
         def log_message(self, format, *args):
             """Suppress logging of requests."""
-            if self._enable_access_log:
-                super().log_message(format, *args)
+            pass
 
         def _send_headers(self, status: HTTPStatus, headers: dict = {}):
             """Set the response headers."""
