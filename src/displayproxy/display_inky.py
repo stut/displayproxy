@@ -32,7 +32,7 @@ try:
             self._diff_percent_threshold = self._config.option_float('diff_percent_threshold', self._default_options['diff_percent_threshold'])
 
             try:
-                self._display = auto(ask_user=False, verbose=False)
+                self._display = auto(ask_user=True, verbose=True)
             except TypeError:
                 exit('You need to update the Inky library to >= v1.1.0')
 
