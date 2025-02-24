@@ -4,6 +4,7 @@ class Config:
     _type_defaults = {
         'inky-impression-5.7': {
             'display_type': 'inky',
+            'display_variant': '5.7',
             'buttons': {
                 'A': '5u',
                 'B': '6u',
@@ -26,6 +27,34 @@ class Config:
             'options': {
                 'width': '600',
                 'height': '448',
+                'button_color': '#777777',
+            },
+        },
+        'inky-impression-7.3': {
+            'display_type': 'inky',
+            'display_variant': '7.3',
+            'buttons': {
+                'A': '5u',
+                'B': '6u',
+                'C': '16u',
+                'D': '24u',
+            },
+            'options': {
+                'width': '800',
+                'height': '480',
+            },
+        },
+        'pygame-inky-impression-7.3': {
+            'display_type': 'pygame',
+            'buttons': {
+                'A': '0,37,37,74',
+                'B': '0,148,37,185',
+                'C': '0,259,37,296',
+                'D': '0,370,37,407',
+            },
+            'options': {
+                'width': '800',
+                'height': '480',
                 'button_color': '#777777',
             },
         },
