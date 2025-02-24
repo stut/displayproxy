@@ -33,15 +33,14 @@ try:
             self._diff_percent_threshold = self._config.option_float('diff_percent_threshold', self._default_options['diff_percent_threshold'])
 
             try:
-                display_variant = self._config.option_str('display_variant', 'auto')
-                if display_variant == 'auto':
+                if self._config.display_variant() == 'auto':
                     self._display = auto(ask_user=False, verbose=False)
-                elif display_variant == '5.7':
+                elif self._config.display_variant() == '5.7':
                     self._display = InkyUC8159(resolution=(600, 448))
-                elif display_variant == '7.3':
+                elif self._config.display_variant() == '7.3':
                     self._display = InkyAC073TC1A(resolution=(800, 480))
                 else:
-                    exit(f"Unknown Inky display variant '{display_variant}'")
+                    exit(f"Unknown Inky display variant '{self._config.display_variant()}'")
             except TypeError:
                 exit('You need to update the Inky library to >= v1.1.0')
 

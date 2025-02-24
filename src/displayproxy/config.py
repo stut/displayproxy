@@ -72,6 +72,7 @@ class Config:
         """
         type_defaults = self._type_defaults.get(display_type, {})
         self._display_type = type_defaults.get("display_type", display_type)
+        self._display_variant = type_defaults.get("display_variant", 'auto')
         self._buttons = {**type_defaults.get("buttons", {}), **self._parse_buttons(buttons)}
         self._options = {**type_defaults.get("options", {}), **self._parse_options(options)}
 
@@ -79,6 +80,11 @@ class Config:
     def display_type(self) -> str:
         """Return the display type."""
         return self._display_type
+
+    @property
+    def display_variant(self) -> str:
+        """Return the display variant."""
+        return self._display_variant
 
     @property
     def buttons(self) -> dict:
