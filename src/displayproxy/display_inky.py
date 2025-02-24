@@ -6,7 +6,7 @@ try:
     from copy import deepcopy
     from sys import exit
 
-    from inky import InkyUC8159, InkyAC073TC1A
+    from inky import Inky
     from inky.auto import auto
     import RPi.GPIO as GPIO
     from PIL import Image
@@ -36,9 +36,9 @@ try:
                 if self._config.display_variant() == 'auto':
                     self._display = auto(ask_user=False, verbose=False)
                 elif self._config.display_variant() == '5.7':
-                    self._display = InkyUC8159(resolution=(600, 448))
+                    self._display = Inky(resolution=(600, 448))
                 elif self._config.display_variant() == '7.3':
-                    self._display = InkyAC073TC1A(resolution=(800, 480))
+                    self._display = Inky(resolution=(800, 480))
                 else:
                     exit(f"Unknown Inky display variant '{self._config.display_variant()}'")
             except TypeError:
