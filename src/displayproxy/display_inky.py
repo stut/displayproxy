@@ -6,7 +6,6 @@ try:
     from copy import deepcopy
     from sys import exit
 
-    from inky import Inky
     from inky.auto import auto
     import RPi.GPIO as GPIO
     from PIL import Image
@@ -33,14 +32,7 @@ try:
             self._diff_percent_threshold = self._config.option_float('diff_percent_threshold', self._default_options['diff_percent_threshold'])
 
             try:
-                if self._config.display_variant() == 'auto':
-                    self._display = auto(ask_user=False, verbose=False)
-                elif self._config.display_variant() == '5.7':
-                    self._display = Inky(resolution=(600, 448))
-                elif self._config.display_variant() == '7.3':
-                    self._display = Inky(resolution=(800, 480))
-                else:
-                    exit(f"Unknown Inky display variant '{self._config.display_variant()}'")
+                self._display = auto(ask_user=False, verbose=False)
             except TypeError:
                 exit('You need to update the Inky library to >= v1.1.0')
 
