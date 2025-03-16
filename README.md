@@ -52,6 +52,10 @@ anything to happen on startup.
 The process can be run as a daemon as it does not need access to a desktop
 environment. It can be run on a headless Raspberry Pi.
 
+Important: The image supplied must be the correct size for the display,
+otherwise the request will return a 400 error and the display will not be
+updated.
+
 ### Pygame
 
 Pygame requires a desktop environment to run. The easiest way to achieve this
